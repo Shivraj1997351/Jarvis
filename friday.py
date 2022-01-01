@@ -30,12 +30,13 @@ import cv2
 from googletrans import Translator
 import pyjokes
 import warnings
-import PyPDF2
+#import PyPDF2
 
 
 
 if (success == "False"):
     engine_speak("Unauthorised person")
+    time.sleep(2)
     exit()
 
 
@@ -61,7 +62,7 @@ def engine_speak(text):
     engine.say(text)
     engine.runAndWait()
 
-
+'''
 def alarm():
     import datetime
     from playsound import playsound
@@ -70,7 +71,7 @@ def alarm():
     current_min = now.minute
     if current_hour == 6 and current_min == 40:
        playsound('C:\\Users\\SHIVRAJ\\Desktop\\Jarvis\\jarvis_alarm.wav')
-
+'''
 def wishMe():
     hour = datetime.datetime.now().hour
     if hour>=0 and hour<12:
@@ -156,12 +157,12 @@ def classify_face(im):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     return face_names
-
+'''
 def detectperson():
     engine_speak("detecting sir")
     classify_face("Test/test.jpg")
     engine_speak("detected")
-
+'''
 def telltime():
     now = datetime.datetime.now()
     current_time = now.strftime("%H:%M")
@@ -310,7 +311,7 @@ def audiobook():
     from_page = pdfReader.getPage(7)
     text = from_page.extractText()
     engine_speak(text)
-'''
+
 def todolist():
     todolist = []
     listtitle = record_audio("what do u want to call the list sir")
@@ -324,17 +325,17 @@ def todolist():
         if(i != ""):
            tasks.append(i)
         print(tasks)
-
+'''
 def respond(voice_data):
-
+    '''
     # 1: detect faces 
-    if there_exists(["detect person","detect","person"]):
+    if there_exists(["detect person"]):
         detectperson()
-
+    '''
     # 2: name(assistant)
-    if there_exists(["what is your name","who are you","your name"]):
+    if there_exists(["who are you"]):
         if person_obj.name:
-            engine_speak(f"My name is {asis_obj.name}")
+            engine_speak(f"My name is {asis_obj.name} i am your virtual assistant")
 
     # 3: calculator
     if there_exists(["open calculator"]):
@@ -345,23 +346,23 @@ def respond(voice_data):
         subprocess.Popen('C:\\Windows\\System32\\notepad.exe')
 
     # 5: name(person)
-    if there_exists(["my name"]):
+    if there_exists(["tell me my name"]):
         engine_speak("Your name must be " + person_obj.name)
 
     # 6: test of friday's speed
-    if there_exists(["friday","are you there"]):
+    if there_exists(["are you there"]):
         engine_speak("always in your service sir")
-
+    '''
     # 7: greeting(assistant)
     if there_exists(["how are you"]):
         engine_speak("I'm very well, thanks for asking " + person_obj.name)
-
+    '''
     # 8: time
     if there_exists(["tell me the time"]):
         telltime()
 
     #9: weather
-    if there_exists(["weather"]):
+    if there_exists(["tell me weather status"]):
         tellweather()
 
     #10: google something
@@ -371,11 +372,11 @@ def respond(voice_data):
     #11: search something on youtube
     if there_exists(["open youtube"]):
         openyoutube()
-
+    '''
     #12: open command prompt
     if there_exists(["cmd"]):
         os.system("start cmd")
-
+    '''
     # 13: exit
     if there_exists(["exit"]):
         engine_speak("enjoy your day sir,bye")
@@ -406,7 +407,7 @@ def respond(voice_data):
         openwhatsapp()
 
     #20: news
-    if there_exists(["news"]):
+    if there_exists(["tell me the news"]):
         news()
 
     #21: classroom
@@ -438,7 +439,7 @@ def respond(voice_data):
     if there_exists(["what can you do"]):
         engine_speak("I can google,open websites,search place on map, for all commands i'm opening commands chart sir")
         work()
-
+    '''
     #26: detect object
     if there_exists(["detect this"]):
         engine_speak("detecting sir")
@@ -446,7 +447,7 @@ def respond(voice_data):
         engine_speak("objects detected")
         clear = lambda: os.system('cls')
         clear()
-
+    '''
 
     #27: tell me a joke
     if there_exists(["tell me a joke"]):
@@ -471,15 +472,11 @@ def respond(voice_data):
     if there_exists(["audiobook"]):
         audiobook()
     '''
-    #30: greet someone
-    if there_exists(["meet sumit"]):
-        voice_data = voice_data.replace("meet","")
-        engine_speak("Hello " + voice_data)
-
+    '''
     #31: make a to do list
     if there_exists(["create a list"]):
         todolist()
-
+    '''
 
 person_obj = person()
 asis_obj = asis()
@@ -488,23 +485,32 @@ person_obj.name = "Shiv"
 wishMe()
 engine = pyttsx3.init()
 
-commands = ["","what is your name","who are you","your name","cmd","search google","open youtube","open calculator","open notepad","my name","friday","are you there","how are you","tell me the time","exit","track my location","open facebook","want some fun","weather","play music","open hotstar","open whatsapp","news","open classroom","search place","open gmail","system report","what can you do","detect this","detect person","detect","person""tell me a joke","open camera","meet sumit","create a list"]
+commands = ["","who are you","open calculator","open notepad","tell me my name","are you there","tell me the time","tell me weather status","search google","open youtube","exit","track my location","open facebook","want some fun","play music","open hotstar","open whatsapp","tell me the news","open classroom","search place","open gmail","system report","what can you do","tell me a joke","open camera"]
 
 newvoice_data = []
 
 while(1):
-    alarm()
+    #alarm()
     voice_data = record_audio("") # get the voice input
 
     if(voice_data not in commands):
-       from nltk.tokenize import sent_tokenize
+       #from nltk.tokenize import sent_tokenize
        import wikipediaapi as wa
+       import nltk
+       from nltk.stem import WordNetLemmatizer
+       from nltk.corpus import stopwords
+
        language = "en"
        testdata = wa.Wikipedia(language)
-       newvoice_data = sent_tokenize(voice_data)
+       #newvoice_data = sent_tokenize(voice_data)
+       lemmatizer = WordNetLemmatizer()
+       words = nltk.word_tokenize(voice_data)
+       words = [lemmatizer.lemmatize(word) for word in words if word not in set(stopwords.words('english'))]
+       newvoice_data = ' '.join(words)
+       print(newvoice_data)
        if(testdata.page(newvoice_data).exists):
           try:
-              engine_speak("connecting to oracle wait for sometime sir")
+              engine_speak("connecting to oracle")
               page = wikipedia.summary(newvoice_data, sentences=2)
               engine_speak(page)
           except wikipedia.exceptions.PageError:
