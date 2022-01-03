@@ -3,7 +3,7 @@ import numpy as np
 import face_recognition
 import os
 from datetime import datetime
-
+import time
 path = 'Training_images'
 images = []
 classNames = []
@@ -54,10 +54,13 @@ while True:
             success = "True"
         else:
             success = "False"
-            exit()
+            #exit()
 
     cv2.imshow('Face recognition', img)
-    if cv2.waitKey(40) == 27:
+    #break
+    if (success == "True"):
          break
+    if (success == "False"):
+         exit()
 cap.release()
 cv2.destroyAllWindows()

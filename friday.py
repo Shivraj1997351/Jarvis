@@ -32,12 +32,10 @@ import pyjokes
 import warnings
 #import PyPDF2
 
-
-
 if (success == "False"):
-    engine_speak("Unauthorised person")
-    time.sleep(2)
     exit()
+
+
 
 
 class person:
@@ -61,6 +59,7 @@ def engine_speak(text):
     text = str(text)
     engine.say(text)
     engine.runAndWait()
+
 
 '''
 def alarm():
@@ -107,6 +106,7 @@ def work():
     im = Image.open("friday.png")
     im.show()
 
+"""
 def get_encoded_faces():
     encoded = {}
 
@@ -154,9 +154,10 @@ def classify_face(im):
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(img, name, (left -20, bottom + 15), font, 1.0, (255, 255, 255), 2)
         cv2.imshow('Face Recognition', img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
     return face_names
+"""
 '''
 def detectperson():
     engine_speak("detecting sir")
