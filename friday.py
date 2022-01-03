@@ -61,16 +61,6 @@ def engine_speak(text):
     engine.runAndWait()
 
 
-'''
-def alarm():
-    import datetime
-    from playsound import playsound
-    now = datetime.datetime.now()
-    current_hour = now.hour
-    current_min = now.minute
-    if current_hour == 6 and current_min == 40:
-       playsound('C:\\Users\\SHIVRAJ\\Desktop\\Jarvis\\jarvis_alarm.wav')
-'''
 def wishMe():
     hour = datetime.datetime.now().hour
     if hour>=0 and hour<12:
@@ -491,7 +481,6 @@ commands = ["","who are you","open calculator","open notepad","tell me my name",
 newvoice_data = []
 
 while(1):
-    #alarm()
     voice_data = record_audio("") # get the voice input
 
     if(voice_data not in commands):
